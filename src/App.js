@@ -42,29 +42,23 @@ export default class App extends Component {
   };
 
   fetchImg = () => {
-    const { currentPage, searchQuery } = this.state;
-    const options = { searchQuery, currentPage };
-
+    const { searchQuery, currentPage } = this.state;
     this.setState({ isLoading: true });
-
-    imageApi
-      .fetchImages(options)
-      .then(hits => {
-        this.setState(prevState => ({
-          images: [...prevState.images, ...hits],
-          currentPage: prevState.currentPage + 1,
-        }));
-      })
-      .catch(error => this.setState({ error }))
-      .finally(() => this.setState({ isLoading: false }));
+    imageApi.fetchImageWithQuery(searchQuery, currentPage).then(hits => {
+      if (hits.length === 0) {
+        return alert('По вашему запросу ничего не найдено');
+      }
+      this.setState(prevState => ({
+        images: [...prevState.images, ...hits],
+        currentPage: prevState.currentPage + 1,
+        isLoading: false,
+      }));
+    });
   };
 
   handleClickImage = largeImageURL => {
     this.openModal(largeImageURL);
   };
-
-  openModal = largeImageURL =>
-    this.setState({ showModal: true, originalImageURL: largeImageURL });
 
   closeModal = () => this.setState({ showModal: false, originalImageURL: '' });
 
@@ -76,21 +70,14 @@ export default class App extends Component {
   }
 
   render() {
-    const {
-      images,
-      isLoading,
+    const { images, isLoading, showModal, originalImageURL } = this.state;
 
-      showModal,
-      originalImageURL,
-    } = this.state;
-
-    const buttonIsShown = images.length > 0 && !isLoading;
+    const buttonIsShow = images.length > 0 && !isLoading;
 
     return (
       <>
         <Searchbar onSubmit={this.onChangeQuery} />
-
-        <ImageGallery images={images} onImageClick={this.handleClickImage} />
+        <ImageGallery images={images} onClick={this.handleClickImage} />
 
         {showModal && (
           <Modal
@@ -101,7 +88,7 @@ export default class App extends Component {
 
         {isLoading && <Loader />}
 
-        {buttonIsShown && <Button onLoadMore={this.fetchImg} />}
+        {buttonIsShow && <Button onClickLoad={this.fetchImg} />}
       </>
     );
   }

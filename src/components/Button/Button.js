@@ -2,8 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styles from '../Button/Button.module.css';
 
-const Button = ({ onClick }) => (
-  <button type="button" className={styles.button} onClick={onClick}>
+const Button = ({ onClickLoad }) => (
+  <button type="button" className={styles.Button} onClick={onClickLoad}>
     Load more
   </button>
 );
@@ -11,5 +11,5 @@ const Button = ({ onClick }) => (
 export default Button;
 
 Button.propTypes = {
-  onClick: PropTypes.func.isRequired,
+  onClickLoad: PropTypes.func.isRequired,
 };

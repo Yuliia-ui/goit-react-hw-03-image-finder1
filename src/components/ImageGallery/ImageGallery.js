@@ -3,13 +3,16 @@ import PropTypes from 'prop-types';
 import ImageGalleryItem from './ImageGalleryItem/ImageGalleryItem';
 import styles from '../ImageGallery/ImageGallery.module.css';
 
-const ImageGallery = ({ gallery }) => (
+const ImageGallery = ({ images, onClick }) => (
   <ul className={styles.ImageGallery}>
-    {gallery.map(elem => (
+    {images.map(item => (
       <ImageGalleryItem
-        key={elem.id}
-        id={elem.id}
-        galleryItem={elem.largeImage}
+        key={item.id}
+        id={item.id}
+        alt={item.tags}
+        src={item.webformatURL}
+        onClickLargeImg={onClick}
+        largeImageURL={item.largeImageURL}
       />
     ))}
   </ul>
@@ -19,5 +22,5 @@ export default ImageGallery;
 
 ImageGallery.propTypes = {
   images: PropTypes.array.isRequired,
-  onImageClick: PropTypes.func.isRequired,
+  onClick: PropTypes.func.isRequired,
 };

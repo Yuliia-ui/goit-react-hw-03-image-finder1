@@ -4,19 +4,19 @@ import styles from '../ImageGalleryItem/ImageGalleryItem.module.css';
 
 const ImageGalleryItem = ({
   id,
-  webformatURL,
+  src,
   largeImageURL,
   tags,
   onClickLargeImg,
 }) => {
-  const handleClick = e => onClickLargeImg(e.target.dataset.source);
+  const handleClick = event => onClickLargeImg(event.target.dataset.source);
 
   return (
-    <li className={styles.imageGalleryItem} key={id}>
+    <li className={styles.imageGalleryItem}>
       <img
-        src={webformatURL}
+        src={src}
         alt={tags}
-        className={styles.imageGalleryItemImage}
+        className={styles.imageGallery}
         data-source={largeImageURL}
         data-id={id}
         onClick={handleClick}
@@ -26,7 +26,7 @@ const ImageGalleryItem = ({
 };
 
 ImageGalleryItem.propTypes = {
-  webformatURL: PropTypes.string.isRequired,
+  src: PropTypes.string.isRequired,
   largeImageURL: PropTypes.string.isRequired,
   id: PropTypes.number,
   tags: PropTypes.string,
