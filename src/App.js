@@ -15,8 +15,14 @@ export default class App extends Component {
     isLoading: false,
     openModal: false,
     originalImageURL: null,
-    error: null,
+    /*error: null,*/
   };
+
+  /*componentDidUpdate(prevProps, prevState) {
+    if (prevState.searchQuery !== this.state.searchQuery) {
+      this.fetchImg();
+    }
+  }*/
 
   componentDidUpdate(prevProps, prevState) {
     const prevQuery = prevState.searchQuery;
@@ -28,26 +34,6 @@ export default class App extends Component {
       this.smoothScrol();
     }
   }
-  /*componentDidUpdate(prevProps, prevState) {
-    if (prevState.searchQuery !== this.state.searchQuery) {
-      this.fetchImg();
-    }
-
-    window.scrollTo({
-      top: document.documentElement.scrollHeight,
-      behavior: 'smooth',
-    });
-  }
-
-  /*onChangeQuery = query => {
-    this.setState({
-      searchQuery: query,
-      currentPage: 1,
-      images: [],
-      error: null,
-      showModal: false,
-    });
-  };*/
 
   onChangeQuery = query => {
     if (query !== this.state.searchQuery) {
@@ -70,7 +56,7 @@ export default class App extends Component {
     });
   };
 
-  onChangeQuery = query => {
+  /*onChangeQuery = query => {
     this.setState({
       searchQuery: query,
       page: 1,
@@ -78,32 +64,30 @@ export default class App extends Component {
       error: null,
       openModal: false,
     });
-  };
+  };*/
 
   handleClickImage = largeImage => {
     this.openModal(largeImage);
   };
-  /*handleClickImage = largeImage => {
-    this.openModal(largeImage);
-  };*/
 
-  openModal = largeImage => {
+  /*openModal = largeImage => {
     this.setState(prevState => ({
-      isModal: !prevState.isModal,
+      openModal: !prevState.openModal,
       currentImage: prevState.isModal ? null : largeImage,
     }));
-  };
-  /*openModal = largeImage =>
+  };*/
+
+  openModal = largeImage =>
     this.setState({ showModal: true, originalImageURL: largeImage });
 
-  closeModal = () => this.setState({ showModal: false, originalImageURL: '' });*/
+  closeModal = () => this.setState({ showModal: false, originalImageURL: '' });
 
-  smoothScrol() {
+  /*smoothScrol() {
     window.scrollTo({
       top: document.documentElement.scrollHeight,
       behavior: 'smooth',
     });
-  }
+  }*/
 
   render() {
     const { images, isLoading, openModal, originalImageURL } = this.state;
