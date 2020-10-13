@@ -15,23 +15,11 @@ export default class App extends Component {
     isLoading: false,
     openModal: false,
     originalImageURL: null,
-    /*error: null,*/
   };
 
-  /*componentDidUpdate(prevProps, prevState) {
+  componentDidUpdate(prevProps, prevState) {
     if (prevState.searchQuery !== this.state.searchQuery) {
       this.fetchImg();
-    }
-  }*/
-
-  componentDidUpdate(prevProps, prevState) {
-    const prevQuery = prevState.searchQuery;
-    const nextQuery = this.state.searchQuery;
-    if (prevQuery !== nextQuery) {
-      this.fetchImg();
-    }
-    if (this.state.page > 2 && prevState.page !== this.state.page) {
-      this.smoothScrol();
     }
   }
 
@@ -56,58 +44,30 @@ export default class App extends Component {
     });
   };
 
-  /*onChangeQuery = query => {
-    this.setState({
-      searchQuery: query,
-      page: 1,
-      images: [],
-      error: null,
-      openModal: false,
-    });
-  };*/
-
   handleClickImage = largeImage => {
     this.openModal(largeImage);
   };
 
-  /*openModal = largeImage => {
-    this.setState(prevState => ({
-      openModal: !prevState.openModal,
-      currentImage: prevState.isModal ? null : largeImage,
-    }));
-  };*/
-
   openModal = largeImage =>
-    this.setState({ showModal: true, originalImageURL: largeImage });
+    this.setState({ openModal: true, originalImageURL: largeImage });
 
-  closeModal = () => this.setState({ showModal: false, originalImageURL: '' });
-
-  /*smoothScrol() {
-    window.scrollTo({
-      top: document.documentElement.scrollHeight,
-      behavior: 'smooth',
-    });
-  }*/
+  closeModal = () => this.setState({ openModal: false, originalImageURL: '' });
 
   render() {
     const { images, isLoading, openModal, originalImageURL } = this.state;
-
     const buttonIsShow = images.length > 0 && !isLoading;
 
     return (
       <>
         <Searchbar onSubmit={this.onChangeQuery} />
         <ImageGallery images={images} onClick={this.handleClickImage} />
-
         {openModal && (
           <Modal
             largeImage={originalImageURL}
             closeModal={this.closeModal}
           ></Modal>
         )}
-
         {isLoading && <Loader />}
-
         {buttonIsShow && <Button onClickLoad={this.fetchImg} />}
       </>
     );
