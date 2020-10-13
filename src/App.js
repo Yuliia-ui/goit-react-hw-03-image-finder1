@@ -13,25 +13,33 @@ export default class App extends Component {
     searchQuery: '',
     currentPage: 1,
     isLoading: false,
-    showModal: false,
+    openModal: false,
     originalImageURL: null,
     error: null,
   };
 
   componentDidUpdate(prevProps, prevState) {
+    const prevQuery = prevState.searchQuery;
+    const nextQuery = this.state.searchQuery;
+    if (prevQuery !== nextQuery) {
+      this.fetchImg();
+    }
+    if (this.state.page > 2 && prevState.page !== this.state.page) {
+      this.smoothScrol();
+    }
+  }
+  /*componentDidUpdate(prevProps, prevState) {
     if (prevState.searchQuery !== this.state.searchQuery) {
       this.fetchImg();
     }
 
-    if (
-      this.state.currentPage > 2 &&
-      prevState.currentPage !== this.state.currentPage
-    ) {
-      this.smoothScrol();
-    }
+    window.scrollTo({
+      top: document.documentElement.scrollHeight,
+      behavior: 'smooth',
+    });
   }
 
-  onChangeQuery = query => {
+  /*onChangeQuery = query => {
     this.setState({
       searchQuery: query,
       currentPage: 1,
@@ -39,6 +47,12 @@ export default class App extends Component {
       error: null,
       showModal: false,
     });
+  };*/
+
+  onChangeQuery = query => {
+    if (query !== this.state.searchQuery) {
+      this.setState({ searchQuery: query, currentPage: 1, images: [] });
+    }
   };
 
   fetchImg = () => {
@@ -56,11 +70,33 @@ export default class App extends Component {
     });
   };
 
-  handleClickImage = largeImageURL => {
-    this.openModal(largeImageURL);
+  onChangeQuery = query => {
+    this.setState({
+      searchQuery: query,
+      page: 1,
+      images: [],
+      error: null,
+      openModal: false,
+    });
   };
 
-  closeModal = () => this.setState({ showModal: false, originalImageURL: '' });
+  handleClickImage = largeImage => {
+    this.openModal(largeImage);
+  };
+  /*handleClickImage = largeImage => {
+    this.openModal(largeImage);
+  };*/
+
+  openModal = largeImage => {
+    this.setState(prevState => ({
+      isModal: !prevState.isModal,
+      currentImage: prevState.isModal ? null : largeImage,
+    }));
+  };
+  /*openModal = largeImage =>
+    this.setState({ showModal: true, originalImageURL: largeImage });
+
+  closeModal = () => this.setState({ showModal: false, originalImageURL: '' });*/
 
   smoothScrol() {
     window.scrollTo({
@@ -70,7 +106,7 @@ export default class App extends Component {
   }
 
   render() {
-    const { images, isLoading, showModal, originalImageURL } = this.state;
+    const { images, isLoading, openModal, originalImageURL } = this.state;
 
     const buttonIsShow = images.length > 0 && !isLoading;
 
@@ -79,9 +115,9 @@ export default class App extends Component {
         <Searchbar onSubmit={this.onChangeQuery} />
         <ImageGallery images={images} onClick={this.handleClickImage} />
 
-        {showModal && (
+        {openModal && (
           <Modal
-            largeImageURL={originalImageURL}
+            largeImage={originalImageURL}
             closeModal={this.closeModal}
           ></Modal>
         )}

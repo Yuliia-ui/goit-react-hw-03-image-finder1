@@ -9,7 +9,8 @@ const ImageGalleryItem = ({
   tags,
   onClickLargeImg,
 }) => {
-  const handleClick = event => onClickLargeImg(event.target.dataset.source);
+  const handleClickImage = event =>
+    onClickLargeImg(event.target.dataset.source);
 
   return (
     <li className={styles.imageGalleryItem}>
@@ -19,7 +20,7 @@ const ImageGalleryItem = ({
         className={styles.imageGallery}
         data-source={largeImageURL}
         data-id={id}
-        onClick={handleClick}
+        onClick={handleClickImage}
       />
     </li>
   );

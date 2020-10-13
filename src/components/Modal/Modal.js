@@ -27,7 +27,7 @@ export default class Modal extends Component {
     return (
       <div className={styles.overlay} onClick={this.onCloseModal}>
         <div className={styles.modal}>
-          <img src={this.props.largeImageURL} alt="" />
+          <img src={this.props.largeImage} alt="" />
         </div>
       </div>
     );
@@ -35,6 +35,6 @@ export default class Modal extends Component {
 }
 
 Modal.propTypes = {
-  largeImageURL: PropTypes.string.isRequired,
+  largeImage: PropTypes.string.isRequired,
   closeModal: PropTypes.func.isRequired,
 };
